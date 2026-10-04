@@ -1,4 +1,4 @@
-import { shaders } from 'shader-ui'
+import { shaders } from 'ferry-shaders'
 
 import { CodeSample } from '../components/code-sample'
 
@@ -16,14 +16,14 @@ export function Intro() {
         {shaders.length} animated backgrounds, drawn by the GPU. Each one declares its parameters, so you can change them live.
       </p>
       <div className="flex max-w-md flex-col gap-2 pt-1">
-        <CodeSample prompt language="shell" code="npm install ../shader-ui" copyPlacement="side" what="install command" className="bg-surface-100" />
+        <CodeSample prompt language="shell" code="npm install ferry-shaders" copyPlacement="side" what="install command" className="bg-surface-100" />
         <p className="text-[13px] text-foreground-lighter">
-          The package is not on npm yet.{' '}
+          Your app needs React 18 or React 19.{' '}
           <a
             href="#install"
             className="rounded-sm text-primary underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
           >
-            Install it from its folder
+            See how to install
           </a>
           .
         </p>

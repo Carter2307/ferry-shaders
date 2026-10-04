@@ -1,4 +1,4 @@
-import { ShaderCanvas, drift, getShader, shaders } from 'shader-ui'
+import { ShaderCanvas, drift, getShader, shaders } from 'ferry-shaders'
 
 /** A menu of every shader of the library. */
 export function ShaderSelect({ value, onChange }: { value: string; onChange: (id: string) => void }) {

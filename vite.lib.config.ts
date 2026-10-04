@@ -18,8 +18,8 @@ const isClientModule = (fileName: string) => fileName.startsWith('react/')
 export default defineConfig({
   plugins: [react()],
   build: {
-    // Three entries: the whole library, the engine alone (`shader-ui/core`) and the shader
-    // definitions alone (`shader-ui/shaders`). The last two import no React.
+    // Three entries: the whole library, the engine alone (`ferry-shaders/core`) and the shader
+    // definitions alone (`ferry-shaders/shaders`). The last two import no React.
     lib: {
       entry: { index: 'src/index.ts', 'core/index': 'src/core/index.ts', 'shaders/index': 'src/shaders/index.ts' },
       formats: ['es'],

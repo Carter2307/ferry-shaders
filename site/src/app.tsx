@@ -1,5 +1,5 @@
 import { PageContainer } from 'ferry-ui'
-import { PixelField } from 'shader-ui'
+import { PixelField } from 'ferry-shaders'
 
 import { SideNav } from './components/side-nav'
 import { SiteFooter } from './components/site-footer'
@@ -21,7 +21,7 @@ import { ShaderReference } from './sections/shader-reference'
 import { WithoutReact } from './sections/without-react'
 
 /**
- * The documentation page of shader-ui: one page that is the documentation and the live demo. The
+ * The documentation page of ferry-shaders: one page that is the documentation and the live demo. The
  * pixel field behind the top of the page is the library, used on its own page.
  */
 export function App() {

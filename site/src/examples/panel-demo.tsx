@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { ShaderCanvas, ShaderPanel, ripples, shaders, useShaderControls, type ShaderDefinition } from 'shader-ui'
-import 'shader-ui/styles.css'
+import { ShaderCanvas, ShaderPanel, ripples, shaders, useShaderControls, type ShaderDefinition } from 'ferry-shaders'
+import 'ferry-shaders/styles.css'
 
 export function PanelDemo() {
   const [shader, setShader] = useState<ShaderDefinition>(ripples)

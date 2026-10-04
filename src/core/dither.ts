@@ -150,7 +150,7 @@ export function defineDitherShader<const P extends ParamSchema = Record<never, n
   const own: ParamSchema = {}
   for (const [key, def] of Object.entries(init.params ?? {})) {
     if (key in ditherParams) {
-      throw new Error(`[shader-ui] shader "${init.id}": "${key}" is a shared dither parameter. Use "overrides" to change its default.`)
+      throw new Error(`[ferry-shaders] shader "${init.id}": "${key}" is a shared dither parameter. Use "overrides" to change its default.`)
     }
     own[key] = { group: DEFAULT_GROUP, ...def }
   }

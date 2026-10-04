@@ -1,5 +1,5 @@
-import { mountShader } from 'shader-ui/core'
-import { drift } from 'shader-ui/shaders'
+import { mountShader } from 'ferry-shaders/core'
+import { drift } from 'ferry-shaders/shaders'
 
 /** Draws Drift on a canvas. The canvas fills its parent, which needs a size and `overflow: hidden`. */
 export function startBackground(canvas: HTMLCanvasElement) {

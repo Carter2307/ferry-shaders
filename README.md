@@ -1,10 +1,10 @@
-# shader-ui
+# ferry-shaders
 
-shader-ui is a React + TypeScript library of WebGPU (WGSL) background shaders. Every shader declares its
+ferry-shaders is a React + TypeScript library of WebGPU (WGSL) background shaders. Every shader declares its
 parameters (colors, numbers, booleans, selects) in a schema, so a panel can configure any shader live.
 
 ```tsx
-import { Drift } from 'shader-ui'
+import { Drift } from 'ferry-shaders'
 
 export function Hero() {
   return (
@@ -35,18 +35,18 @@ on a grid of square cells, black on white by default. They come from the portfol
 
 ## What is in the box
 
-- **React** (`shader-ui`): one component per shader (`<Drift />`), `<ShaderCanvas shader={...} params={...} />`
+- **React** (`ferry-shaders`): one component per shader (`<Drift />`), `<ShaderCanvas shader={...} params={...} />`
   for a shader chosen at run time, `useShaderControls(shader)` (the state of a panel) and `<ShaderPanel />`
-  (a ready-made panel; its stylesheet is `shader-ui/styles.css`).
-- **Shaders** (`shader-ui/shaders`, no React): the ten definitions, `shaders` and `getShader(id)`.
-- **Engine** (`shader-ui/core`, no React): `mountShader(canvas, options)` draws a shader on a canvas and
+  (a ready-made panel; its stylesheet is `ferry-shaders/styles.css`).
+- **Shaders** (`ferry-shaders/shaders`, no React): the ten definitions, `shaders` and `getShader(id)`.
+- **Engine** (`ferry-shaders/core`, no React): `mountShader(canvas, options)` draws a shader on a canvas and
   returns `{ update, redraw, dispose }`. One GPU device is shared by every canvas of the page.
 
 ## A panel
 
 ```tsx
-import { ShaderCanvas, ShaderPanel, drift, useShaderControls } from 'shader-ui'
-import 'shader-ui/styles.css'
+import { ShaderCanvas, ShaderPanel, drift, useShaderControls } from 'ferry-shaders'
+import 'ferry-shaders/styles.css'
 
 export function Demo() {
   const controls = useShaderControls(drift)
@@ -60,17 +60,16 @@ export function Demo() {
 ```
 
 The panel is drawn from the schema of the shader, so it works for any shader. Theme it with the
-`--sui-*` variables. To build your own panel, bind your controls to `controls.groups`, `controls.values`
+`--ferry-shaders-*` variables. To build your own panel, bind your controls to `controls.groups`, `controls.values`
 and `controls.set`: the documentation page does it with ferry-ui components.
 
 ## Install
 
-shader-ui is not on npm yet. Build it, then install it from its folder:
-
 ```sh
-npm run build                 # in shader-ui
-npm install ../shader-ui      # in your app
+npm install ferry-shaders
 ```
+
+Your app needs React 18 or React 19. The library has no other dependency.
 
 ## Parameters
 
@@ -79,7 +78,7 @@ The engine generates the WGSL `Uniforms` struct from the schema, so the shader r
 name (`u.color`, `u.scale`).
 
 ```ts
-import { defineDitherShader } from 'shader-ui'
+import { defineDitherShader } from 'ferry-shaders'
 
 export const stripes = defineDitherShader({
   id: 'stripes',

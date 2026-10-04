@@ -1,4 +1,4 @@
-import { resolveColor, resolveColors, type ColorParamDef, type ParamSchema, type Rgba } from 'shader-ui'
+import { resolveColor, resolveColors, type ColorParamDef, type ParamSchema, type Rgba } from 'ferry-shaders'
 
 /** The values of a shader, as a control reads them. */
 export type Values = Readonly<Record<string, unknown>>

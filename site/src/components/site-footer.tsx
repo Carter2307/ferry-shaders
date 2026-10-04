@@ -1,5 +1,5 @@
 import { cn } from 'ferry-ui'
-import { PixelField } from 'shader-ui'
+import { PixelField } from 'ferry-shaders'
 
 /** The footer: the licence, what the page is built with, and a pixel field that rises from the bottom edge. */
 export function SiteFooter() {
@@ -18,7 +18,7 @@ export function SiteFooter() {
           'text-[13px] text-foreground-light',
         )}
       >
-        <p className="text-sm font-medium text-foreground">shader-ui</p>
+        <p className="text-sm font-medium text-foreground">ferry-shaders</p>
         <p>MIT licence. Built with ferry-ui.</p>
       </div>
     </footer>

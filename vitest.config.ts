@@ -10,9 +10,9 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: [
-      { find: /^shader-ui\/core$/, replacement: fileURLToPath(new URL('./src/core/index.ts', import.meta.url)) },
-      { find: /^shader-ui\/shaders$/, replacement: fileURLToPath(new URL('./src/shaders/index.ts', import.meta.url)) },
-      { find: /^shader-ui$/, replacement: fileURLToPath(new URL('./src/index.ts', import.meta.url)) },
+      { find: /^ferry-shaders\/core$/, replacement: fileURLToPath(new URL('./src/core/index.ts', import.meta.url)) },
+      { find: /^ferry-shaders\/shaders$/, replacement: fileURLToPath(new URL('./src/shaders/index.ts', import.meta.url)) },
+      { find: /^ferry-shaders$/, replacement: fileURLToPath(new URL('./src/index.ts', import.meta.url)) },
     ],
   },
   test: {

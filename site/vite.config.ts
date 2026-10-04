@@ -17,20 +17,20 @@ const themeInit = (): Plugin => ({
   transformIndexHtml: () => [{ tag: 'script', children: themeInitScript(), injectTo: 'head' }],
 })
 
-// The documentation page of shader-ui, built with ferry-ui components.
-// `shader-ui` resolves to the sources (../src), so the page always shows the current code.
+// The documentation page of ferry-shaders, built with ferry-ui components.
+// `ferry-shaders` resolves to the sources (../src), so the page always shows the current code.
 export default defineConfig({
   root,
-  // Served from a sub-path (GitHub Pages: /shader-ui/)? Build with SITE_BASE=/shader-ui/.
+  // Served from a sub-path (GitHub Pages: /<repo>/)? Build with SITE_BASE=/<repo>/.
   base: process.env.SITE_BASE ?? '/',
   plugins: [react(), tailwindcss(), themeInit()],
   resolve: {
     // The most specific name first.
     alias: [
-      { find: /^shader-ui\/styles\.css$/, replacement: source('styles/panel.css') },
-      { find: /^shader-ui\/core$/, replacement: source('core/index.ts') },
-      { find: /^shader-ui\/shaders$/, replacement: source('shaders/index.ts') },
-      { find: /^shader-ui$/, replacement: source('index.ts') },
+      { find: /^ferry-shaders\/styles\.css$/, replacement: source('styles/panel.css') },
+      { find: /^ferry-shaders\/core$/, replacement: source('core/index.ts') },
+      { find: /^ferry-shaders\/shaders$/, replacement: source('shaders/index.ts') },
+      { find: /^ferry-shaders$/, replacement: source('index.ts') },
     ],
   },
   // 5173 to 5181 are taken by other projects of this machine.

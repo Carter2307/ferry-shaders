@@ -9,7 +9,7 @@ import {
   type ShaderControls,
   type ShaderControlsOptions,
   type ShaderPanelProps,
-} from 'shader-ui'
+} from 'ferry-shaders'
 
 import { CodeCell, DocRow, DocTable, TextCell } from '../components/doc-table'
 import { Code, DocSection, P, SubHeading } from '../components/prose'
@@ -228,8 +228,8 @@ export function ApiReference() {
   return (
     <DocSection id="api" title="API" description="The props, the options and the methods, as the library declares them.">
       <P>
-        In the types, <Code>S</Code> is the parameter schema of the shader. The components come from <Code>shader-ui</Code>, and{' '}
-        <Code>mountShader</Code> also comes from <Code>shader-ui/core</Code>.
+        In the types, <Code>S</Code> is the parameter schema of the shader. The components come from <Code>ferry-shaders</Code>, and{' '}
+        <Code>mountShader</Code> also comes from <Code>ferry-shaders/core</Code>.
       </P>
 
       <SubHeading id="api-shader-canvas">ShaderCanvas</SubHeading>

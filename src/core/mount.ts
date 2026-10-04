@@ -350,7 +350,7 @@ export function mountShader<S extends ParamSchema>(canvas: HTMLCanvasElement, in
     const onLost = (info: GPUDeviceLostInfo) => {
       unwatch()
       if (signal.aborted || info.reason === 'destroyed') return
-      console.warn('[shader-ui] GPU device lost, starting again:', info.message)
+      console.warn('[ferry-shaders] GPU device lost, starting again:', info.message)
       stopLoop()
       next.destroy()
       renderer = null

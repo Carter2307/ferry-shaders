@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Callout, Card, StatusBadge, type StatusTone } from 'ferry-ui'
 import { MousePointer2 } from 'lucide-react'
-import { ShaderCanvas, type ShaderControls, type ShaderStatus } from 'shader-ui'
+import { ShaderCanvas, type ShaderControls, type ShaderStatus } from 'ferry-shaders'
 
 /** What the badge says for each status of the mounted shader. */
 const STATUS: Record<ShaderStatus, { tone: StatusTone; label: string; pulse?: boolean }> = {

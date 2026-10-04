@@ -1,4 +1,4 @@
-import type { ShaderDefinition } from 'shader-ui'
+import type { ShaderDefinition } from 'ferry-shaders'
 
 import { paramDefault, paramRange, paramType } from '../lib/param-format'
 

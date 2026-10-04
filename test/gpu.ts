@@ -20,7 +20,7 @@ export function getDevice(): Promise<GPUDevice | null> {
   shared ??= (async () => {
     try {
       const adapter = await gpu.requestAdapter()
-      return adapter ? await adapter.requestDevice({ label: 'shader-ui tests' }) : null
+      return adapter ? await adapter.requestDevice({ label: 'ferry-shaders tests' }) : null
     } catch {
       return null
     }

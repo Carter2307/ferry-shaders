@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Input } from 'ferry-ui'
-import type { NumberParamDef } from 'shader-ui'
+import type { NumberParamDef } from 'ferry-shaders'
 
 import type { ControlProps } from '../lib/control-props'
 

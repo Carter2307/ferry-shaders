@@ -1,5 +1,5 @@
 import { useState, useSyncExternalStore } from 'react'
-import { Aurora, isWebGpuSupported, type ShaderStatus } from 'shader-ui'
+import { Aurora, isWebGpuSupported, type ShaderStatus } from 'ferry-shaders'
 
 /** A banner that says what its shader does. */
 export function Banner() {

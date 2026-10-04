@@ -32,7 +32,7 @@ const other = defineShader({
   fragment: '@fragment fn fs_main() -> @location(0) vec4f { return u.color; }',
 })
 
-const KEY = 'shader-ui:test'
+const KEY = 'ferry-shaders:test'
 
 beforeEach(() => {
   window.localStorage.clear()

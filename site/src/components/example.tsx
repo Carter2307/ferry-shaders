@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { cn } from 'ferry-ui'
-import { isWebGpuSupported } from 'shader-ui'
+import { isWebGpuSupported } from 'ferry-shaders'
 
 import type { CodeLanguage } from '../lib/highlight'
 import { snippet } from '../lib/snippet'

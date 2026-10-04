@@ -41,7 +41,7 @@ export interface ShaderPanelProps<S extends ParamSchema = ParamSchema>
 type Values = Readonly<Record<string, string | number | boolean>>
 
 /** A style object that sets custom properties the stylesheet reads. */
-const cssVars = (vars: Record<`--sui-${string}`, string>) => vars as React.CSSProperties
+const cssVars = (vars: Record<`--ferry-shaders-${string}`, string>) => vars as React.CSSProperties
 
 /** `#rrggbb`, the only form a native color input takes. With `alpha`, `#rrggbbaa` when the color is not opaque. */
 function toHex([r, g, b, a]: Rgba, alpha = false): string {
@@ -86,7 +86,7 @@ function isColorValue(def: ColorParamDef, text: string): boolean {
 
 function ChevronIcon() {
   return (
-    <svg className="sui-chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false">
+    <svg className="ferry-shaders-chevron" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false">
       <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
@@ -137,7 +137,7 @@ function NumberControl({ id, describedBy, def, value, onChange }: ControlProps<N
     <>
       <input
         type="range"
-        className="sui-range"
+        className="ferry-shaders-range"
         id={id}
         min={def.min}
         max={def.max}
@@ -146,13 +146,13 @@ function NumberControl({ id, describedBy, def, value, onChange }: ControlProps<N
         aria-describedby={describedBy}
         aria-valuetext={def.unit ? `${value} ${def.unit}` : undefined}
         // The filled part of the track: browsers have no common way to draw it.
-        style={cssVars({ '--sui-fill': `${fill}%` })}
+        style={cssVars({ '--ferry-shaders-fill': `${fill}%` })}
         onChange={(event) => onChange(Number(event.target.value))}
       />
-      <span className="sui-field">
+      <span className="ferry-shaders-field">
         <input
           type="number"
-          className="sui-number"
+          className="ferry-shaders-number"
           aria-label={def.label}
           min={def.min}
           max={def.max}
@@ -161,7 +161,7 @@ function NumberControl({ id, describedBy, def, value, onChange }: ControlProps<N
           onChange={(event) => type(event.target.value)}
           onBlur={() => setDraft(null)}
         />
-        {def.unit ? <span className="sui-unit">{def.unit}</span> : null}
+        {def.unit ? <span className="ferry-shaders-unit">{def.unit}</span> : null}
       </span>
     </>
   )
@@ -216,10 +216,10 @@ function ColorControl({ id, describedBy, def, value, onChange, name, schema, val
 
   return (
     <>
-      <span className="sui-swatch" ref={swatch} style={cssVars({ '--sui-swatch': swatchColor(def, value, values) })}>
+      <span className="ferry-shaders-swatch" ref={swatch} style={cssVars({ '--ferry-shaders-swatch': swatchColor(def, value, values) })}>
         <input
           type="color"
-          className="sui-color"
+          className="ferry-shaders-color"
           aria-label={`${def.label} picker`}
           // Not bound to the value: the native picker needs #rrggbb, and to resolve a token reads the
           // page. The value is written when the picker opens (the click comes before it).
@@ -232,7 +232,7 @@ function ColorControl({ id, describedBy, def, value, onChange, name, schema, val
       </span>
       <input
         type="text"
-        className="sui-text"
+        className="ferry-shaders-text"
         id={id}
         value={draft ?? value}
         spellCheck={false}
@@ -261,7 +261,7 @@ function ColorControl({ id, describedBy, def, value, onChange, name, schema, val
       {def.auto ? (
         <button
           type="button"
-          className="sui-auto"
+          className="ferry-shaders-auto"
           aria-pressed={isAuto}
           aria-label={`Auto ${def.label}`}
           title={`Mix of ${ends.join(' and ')}`}
@@ -279,7 +279,7 @@ function BooleanControl({ id, describedBy, value, onChange }: ControlProps<Boole
     <input
       type="checkbox"
       role="switch"
-      className="sui-switch"
+      className="ferry-shaders-switch"
       id={id}
       checked={value}
       aria-describedby={describedBy}
@@ -290,7 +290,7 @@ function BooleanControl({ id, describedBy, value, onChange }: ControlProps<Boole
 
 function SelectControl({ id, describedBy, def, value, onChange }: ControlProps<SelectParamDef, string>) {
   return (
-    <select className="sui-select" id={id} value={value} aria-describedby={describedBy} onChange={(event) => onChange(event.target.value)}>
+    <select className="ferry-shaders-select" id={id} value={value} aria-describedby={describedBy} onChange={(event) => onChange(event.target.value)}>
       {def.options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}
@@ -344,15 +344,15 @@ function ParamRow({ entry: { key, def }, controls, id }: ParamRowProps) {
   // The column can cut a long label: the tooltip gives the whole label, then the description.
   const tooltip = def.description ? `${def.label}: ${def.description}` : def.label
   return (
-    <div className={`sui-row sui-row--${def.type}`} data-param={key} data-changed={changed ? '' : undefined}>
-      <label className="sui-label" ref={label} htmlFor={id} title={tooltip}>
+    <div className={`ferry-shaders-row ferry-shaders-row--${def.type}`} data-param={key} data-changed={changed ? '' : undefined}>
+      <label className="ferry-shaders-label" ref={label} htmlFor={id} title={tooltip}>
         {def.label}
       </label>
-      <div className="sui-control">{control}</div>
+      <div className="ferry-shaders-control">{control}</div>
       {changed ? (
         <button
           type="button"
-          className="sui-row-reset"
+          className="ferry-shaders-row-reset"
           aria-label={`Reset ${def.label}`}
           title="Reset to the default"
           onClick={() => {
@@ -408,28 +408,28 @@ function ShaderPanelRoot<S extends ParamSchema>(
 
   // The current shader is always a choice, so the select never shows another name.
   const choices = shaders && onShaderChange ? (shaders.some((choice) => choice.id === shader.id) ? shaders : [shader, ...shaders]) : null
-  const heading = <span className="sui-title">{title ?? shader.name}</span>
+  const heading = <span className="ferry-shaders-title">{title ?? shader.name}</span>
 
   return (
     <div
       {...props}
       ref={ref}
-      className={['sui-panel', `sui-panel--${placement}`, className].filter(Boolean).join(' ')}
+      className={['ferry-shaders-panel', `ferry-shaders-panel--${placement}`, className].filter(Boolean).join(' ')}
       data-state={isOpen ? 'open' : 'closed'}
     >
-      <div className="sui-header">
+      <div className="ferry-shaders-header">
         {collapsible ? (
-          <button type="button" className="sui-toggle" aria-expanded={isOpen} aria-controls={bodyId} onClick={toggle}>
+          <button type="button" className="ferry-shaders-toggle" aria-expanded={isOpen} aria-controls={bodyId} onClick={toggle}>
             <ChevronIcon />
             {heading}
           </button>
         ) : (
-          <div className="sui-heading">{heading}</div>
+          <div className="ferry-shaders-heading">{heading}</div>
         )}
         {isOpen ? (
           <button
             type="button"
-            className="sui-reset"
+            className="ferry-shaders-reset"
             // Not `disabled`: a reset disables this button, and a disabled button drops the focus it has.
             aria-disabled={controls.isDefault || undefined}
             onClick={() => {
@@ -440,14 +440,14 @@ function ShaderPanelRoot<S extends ParamSchema>(
           </button>
         ) : null}
       </div>
-      <div className="sui-body" id={bodyId} hidden={!isOpen}>
+      <div className="ferry-shaders-body" id={bodyId} hidden={!isOpen}>
         {choices ? (
-          <div className="sui-shader">
-            <label className="sui-label" htmlFor={shaderId}>
+          <div className="ferry-shaders-shader">
+            <label className="ferry-shaders-label" htmlFor={shaderId}>
               Shader
             </label>
             <select
-              className="sui-select"
+              className="ferry-shaders-select"
               id={shaderId}
               value={shader.id}
               onChange={(event) => {
@@ -470,12 +470,12 @@ function ShaderPanelRoot<S extends ParamSchema>(
             return (
               <div
                 key={group.group}
-                className="sui-group"
+                className="ferry-shaders-group"
                 role={group.group ? 'group' : undefined}
                 aria-labelledby={group.group ? titleId : undefined}
               >
                 {group.group ? (
-                  <div className="sui-group-title" id={titleId}>
+                  <div className="ferry-shaders-group-title" id={titleId}>
                     {group.group}
                   </div>
                 ) : null}
@@ -487,7 +487,7 @@ function ShaderPanelRoot<S extends ParamSchema>(
             )
           })}
         </React.Fragment>
-        {footer ? <div className="sui-footer">{footer}</div> : null}
+        {footer ? <div className="ferry-shaders-footer">{footer}</div> : null}
       </div>
     </div>
   )
@@ -503,8 +503,8 @@ function ShaderPanelRoot<S extends ParamSchema>(
  * (`shaders` + `onShaderChange`), and a header that folds it to a small tab. `placement` leaves it
  * in the flow of the page or fixes it to a corner of the window.
  *
- * The panel has no style of its own: import `shader-ui/styles.css` once, and theme it with the
- * `--sui-*` CSS variables. `data-state` on the root is `open` or `closed`.
+ * The panel has no style of its own: import `ferry-shaders/styles.css` once, and theme it with the
+ * `--ferry-shaders-*` CSS variables. `data-state` on the root is `open` or `closed`.
  */
 export const ShaderPanel = React.forwardRef(ShaderPanelRoot) as (<S extends ParamSchema = ParamSchema>(
   props: ShaderPanelProps<S> & React.RefAttributes<HTMLDivElement>,

@@ -97,7 +97,7 @@ function checkParam(fail: (message: string) => never, schema: ParamSchema, key: 
  */
 export function defineShader<const S extends ParamSchema>(init: ShaderInit<S>): ShaderDefinition<S> {
   const fail = (message: string): never => {
-    throw new Error(`[shader-ui] shader "${init.id}": ${message}.`)
+    throw new Error(`[ferry-shaders] shader "${init.id}": ${message}.`)
   }
 
   if (!ID.test(init.id)) fail('the id must be kebab-case (lower-case letters, digits and single dashes)')

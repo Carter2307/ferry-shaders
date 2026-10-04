@@ -1,7 +1,7 @@
 import { useId, useRef, useState, type ReactNode } from 'react'
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from 'ferry-ui'
 import { RotateCcw } from 'lucide-react'
-import type { ParamEntry, ShaderControls } from 'shader-ui'
+import type { ParamEntry, ShaderControls } from 'ferry-shaders'
 
 import { BooleanControl, SelectControl } from './choice-control'
 import { ColorControl } from './color-control'
