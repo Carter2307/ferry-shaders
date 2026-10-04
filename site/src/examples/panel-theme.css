@@ -1,0 +1,13 @@
+/* The panel in the tokens of ferry-ui. A token changes with the theme, so the panel does too. */
+.sui-panel {
+  --sui-bg: var(--surface-100);
+  --sui-fg: var(--foreground);
+  --sui-muted: var(--foreground-lighter);
+  --sui-border: var(--border-strong);
+  /* Not `--primary-solid`: that fill is the same in both themes, and too dark on a dark panel. */
+  --sui-accent: var(--primary);
+  --sui-radius: var(--ferry-ui-radius-lg);
+  --sui-font: var(--ferry-ui-font-sans);
+  /* ferry-ui has two weights: 400 and 500. */
+  --sui-weight: 500;
+}

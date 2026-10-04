@@ -1,0 +1,742 @@
+/*
+ * Default stylesheet of the shader panel (`shader-ui/styles.css`).
+ *
+ * Theme it with these variables, on `:root`, on a wrapper or on the panel itself:
+ *
+ *   --sui-bg       background of the panel
+ *   --sui-fg       text
+ *   --sui-muted    labels, units, icons
+ *   --sui-border   borders, slider track, hover
+ *   --sui-accent   slider, switch, pressed button, focus ring
+ *   --sui-radius   corner radius of the panel (the controls take a smaller one)
+ *   --sui-font     font family (a list of families)
+ *   --sui-shadow   shadow of the panel (none by default for `inline`)
+ *   --sui-width    width of the open panel
+ *   --sui-weight   font weight of the titles (600 by default)
+ *
+ * And, less often: --sui-scheme (`light` or `dark`: forces the scheme of the panel and of its native menus),
+ * --sui-offset (distance from the window edges, for a corner placement: a length with its unit,
+ * `0px` rather than `0`), --sui-z (its z-index), --sui-danger (border of a color text that is not a color).
+ *
+ * The stylesheet reads these variables and never declares them: the value you give always wins,
+ * wherever you declare it (in a cascade layer or not, before this file or after it).
+ *
+ * To give the panel the font of the page, give `--sui-font` the same families
+ * (`--sui-font: var(--your-font)`), or write `.sui-panel { font-family: inherit; }` in a stylesheet
+ * that comes after this one. `--sui-font: inherit` does not do it: in a variable, CSS applies
+ * `inherit` to the variable itself, and the panel keeps its default font.
+ */
+
+/*
+ * `--sui-offset` is registered as a length, so that `--sui-offset: 0` computes to `0px`. A bare `0`
+ * would make the `calc()` of a corner placement invalid, and the panel would lose its `max-width`
+ * and `max-height`. The initial value is the default offset: the value you give still wins. A
+ * browser with no `@property` (or a shadow root, where the rule is ignored) needs the unit.
+ */
+@property --sui-offset {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 16px;
+}
+
+/*
+ * The defaults. They follow the color scheme of the page:
+ * - a page that declares `color-scheme` (on `:root`, or `dark` under its dark class) gets the
+ *   matching defaults, also when the choice of the reader differs from the system;
+ * - a page with a `dark` class or `data-theme="dark"` gets the dark defaults (and `light` the
+ *   light ones), whatever `color-scheme` says;
+ * - a page that declares nothing is light;
+ * - `--sui-scheme` wins over all of them.
+ */
+:root,
+.light,
+[data-theme='light'] {
+  --sui-default-bg: #ffffff;
+  --sui-default-fg: #1c1c1f;
+  --sui-default-muted: #6b6b76;
+  --sui-default-border: #e2e2e7;
+  --sui-default-accent: #1c1c1f;
+  --sui-default-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 12px 32px -8px rgb(0 0 0 / 0.18);
+}
+
+.light,
+[data-theme='light'] {
+  --sui-default-scheme: light;
+}
+
+.dark,
+[data-theme='dark'] {
+  --sui-default-bg: #1b1b1f;
+  --sui-default-fg: #ededf0;
+  --sui-default-muted: #9c9ca8;
+  --sui-default-border: #303036;
+  --sui-default-accent: #ededf0;
+  --sui-default-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -8px rgb(0 0 0 / 0.6);
+  --sui-default-scheme: dark;
+}
+
+/*
+ * `light-dark()` is resolved on the panel, with the color scheme of the panel: the one of the
+ * page, the one of the theme class (`--sui-default-scheme` above), or `--sui-scheme`. The theme
+ * classes are in the list, and the block comes after theirs, so `--sui-scheme` also wins under a
+ * theme class. A browser with no `light-dark()` keeps the fixed colors above: there, `--sui-scheme`
+ * only changes the native menus.
+ */
+@supports (color: light-dark(#000, #fff)) {
+  :root,
+  .light,
+  [data-theme='light'],
+  .dark,
+  [data-theme='dark'] {
+    --sui-default-bg: light-dark(#ffffff, #1b1b1f);
+    --sui-default-fg: light-dark(#1c1c1f, #ededf0);
+    --sui-default-muted: light-dark(#6b6b76, #9c9ca8);
+    --sui-default-border: light-dark(#e2e2e7, #303036);
+    --sui-default-accent: light-dark(#1c1c1f, #ededf0);
+    --sui-default-shadow:
+      0 1px 2px light-dark(rgb(0 0 0 / 0.06), rgb(0 0 0 / 0.4)),
+      0 12px 32px -8px light-dark(rgb(0 0 0 / 0.18), rgb(0 0 0 / 0.6));
+  }
+}
+
+/* ---------- Panel ---------- */
+
+.sui-panel {
+  /* What the rules below read: your value, else the default of the theme. */
+  --_sui-bg: var(--sui-bg, var(--sui-default-bg, #ffffff));
+  --_sui-fg: var(--sui-fg, var(--sui-default-fg, #1c1c1f));
+  --_sui-muted: var(--sui-muted, var(--sui-default-muted, #6b6b76));
+  --_sui-border: var(--sui-border, var(--sui-default-border, #e2e2e7));
+  --_sui-accent: var(--sui-accent, var(--sui-default-accent, #1c1c1f));
+  --_sui-radius: var(--sui-radius, 8px);
+  /* Corners of the controls. The cap keeps a large panel radius from turning them into pills. */
+  --_sui-inner: min(calc(var(--_sui-radius) * 0.6), 6px);
+  /*
+   * Height of a control, width of the label column, width of the reset column. The label column
+   * holds the longest label of the built-in shaders ("Accent opacity") in the system fonts.
+   */
+  --_sui-height: 24px;
+  --_sui-label: 88px;
+  --_sui-reset: 20px;
+
+  display: flex;
+  flex-direction: column;
+  width: var(--sui-width, 300px);
+  max-width: 100%;
+  border: 1px solid var(--_sui-border);
+  border-radius: var(--_sui-radius);
+  background: var(--_sui-bg);
+  box-shadow: var(--sui-shadow, none);
+  color: var(--_sui-fg);
+  /* No value given and no theme class: the panel keeps the color scheme of the page. */
+  color-scheme: var(--sui-scheme, var(--sui-default-scheme));
+  /* The longhands, not the `font` shorthand: `--sui-font` is a list of families only. */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  font-family: var(--sui-font, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif);
+  line-height: 1.35;
+  letter-spacing: normal;
+  text-align: start;
+}
+
+.sui-panel,
+.sui-panel *,
+.sui-panel *::before,
+.sui-panel *::after {
+  box-sizing: border-box;
+}
+
+/* Folded: only the header is left, as wide as its title. */
+.sui-panel[data-state='closed'] {
+  width: fit-content;
+}
+
+/* A corner placement floats over the page and scrolls inside when the window is short. */
+.sui-panel--top-left,
+.sui-panel--top-right,
+.sui-panel--bottom-left,
+.sui-panel--bottom-right {
+  --_sui-offset: var(--sui-offset, 16px);
+
+  position: fixed;
+  z-index: var(--sui-z, 50);
+  max-width: calc(100vw - 2 * var(--_sui-offset));
+  max-height: calc(100vh - 2 * var(--_sui-offset));
+  box-shadow: var(--sui-shadow, var(--sui-default-shadow, 0 12px 32px -8px rgb(0 0 0 / 0.18)));
+}
+
+/* The small viewport unit keeps the panel clear of the mobile browser bars. */
+@supports (height: 100dvh) {
+  .sui-panel--top-left,
+  .sui-panel--top-right,
+  .sui-panel--bottom-left,
+  .sui-panel--bottom-right {
+    max-height: calc(100dvh - 2 * var(--_sui-offset));
+  }
+}
+
+.sui-panel--top-left {
+  top: var(--_sui-offset);
+  left: var(--_sui-offset);
+}
+
+.sui-panel--top-right {
+  top: var(--_sui-offset);
+  right: var(--_sui-offset);
+}
+
+.sui-panel--bottom-left {
+  bottom: var(--_sui-offset);
+  left: var(--_sui-offset);
+}
+
+.sui-panel--bottom-right {
+  right: var(--_sui-offset);
+  bottom: var(--_sui-offset);
+}
+
+/* ---------- Header ---------- */
+
+.sui-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+}
+
+.sui-toggle,
+.sui-heading {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  height: var(--_sui-height);
+  padding: 0 6px;
+  font-weight: var(--sui-weight, 600);
+  font-size: 13px;
+}
+
+.sui-toggle {
+  margin: 0;
+  border: 0;
+  border-radius: var(--_sui-inner);
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.sui-toggle:hover {
+  background: var(--_sui-border);
+}
+
+.sui-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sui-chevron {
+  flex: none;
+  color: var(--_sui-muted);
+}
+
+.sui-panel[data-state='closed'] .sui-chevron {
+  transform: rotate(-90deg);
+}
+
+/* ---------- Buttons ---------- */
+
+.sui-reset,
+.sui-auto {
+  flex: none;
+  height: var(--_sui-height);
+  margin: 0;
+  padding: 0 8px;
+  border: 1px solid var(--_sui-border);
+  border-radius: var(--_sui-inner);
+  background: transparent;
+  color: var(--_sui-fg);
+  font: inherit;
+  cursor: pointer;
+}
+
+.sui-reset:hover:not([aria-disabled='true']) {
+  background: var(--_sui-border);
+}
+
+/* `aria-disabled`, not `disabled`: the button keeps the focus when a reset turns it off. */
+.sui-reset[aria-disabled='true'] {
+  color: var(--_sui-muted);
+  opacity: 0.6;
+  cursor: default;
+}
+
+.sui-auto {
+  padding: 0 6px;
+  color: var(--_sui-muted);
+}
+
+/* The muted text is too faint on the hover background. This rule stays before the pressed state. */
+.sui-auto:hover {
+  background: var(--_sui-border);
+  color: var(--_sui-fg);
+}
+
+.sui-auto[aria-pressed='true'] {
+  border-color: var(--_sui-accent);
+  background: var(--_sui-accent);
+  color: var(--_sui-bg);
+}
+
+/* ---------- Body, sections, rows ---------- */
+
+.sui-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-top: 1px solid var(--_sui-border);
+  scrollbar-width: thin;
+}
+
+/* `display: flex` above would win over the `hidden` attribute. */
+.sui-body[hidden] {
+  display: none;
+}
+
+/* The sections: the shader picker, one per group, the footer. */
+.sui-body > * {
+  flex: none;
+  padding: 8px 12px;
+}
+
+.sui-body > * + * {
+  border-top: 1px solid var(--_sui-border);
+}
+
+.sui-group-title {
+  padding: 2px 0 4px;
+  font-weight: var(--sui-weight, 600);
+}
+
+.sui-row,
+.sui-shader {
+  display: grid;
+  grid-template-columns: var(--_sui-label) minmax(0, 1fr) var(--_sui-reset);
+  align-items: center;
+  column-gap: 8px;
+  min-height: calc(var(--_sui-height) + 4px);
+}
+
+/* The shader picker has no reset button: its select takes that column too. */
+.sui-shader .sui-select {
+  grid-column: 2 / -1;
+}
+
+.sui-label {
+  overflow: hidden;
+  color: var(--_sui-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A changed parameter stands out a little. */
+.sui-row[data-changed] .sui-label {
+  color: var(--_sui-fg);
+}
+
+.sui-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.sui-row-reset {
+  display: grid;
+  place-items: center;
+  width: var(--_sui-reset);
+  height: var(--_sui-height);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--_sui-inner);
+  background: none;
+  color: var(--_sui-muted);
+  opacity: 0;
+  cursor: pointer;
+}
+
+.sui-row:hover .sui-row-reset,
+.sui-row:focus-within .sui-row-reset {
+  opacity: 1;
+}
+
+.sui-row-reset:hover {
+  background: var(--_sui-border);
+  color: var(--_sui-fg);
+}
+
+/* Nothing hovers on a touch screen: the button is always there. */
+@media (hover: none) {
+  .sui-row-reset {
+    opacity: 1;
+  }
+}
+
+.sui-footer {
+  color: var(--_sui-muted);
+}
+
+/* ---------- Text, number and select fields ---------- */
+
+.sui-text,
+.sui-select,
+.sui-field {
+  height: var(--_sui-height);
+  margin: 0;
+  border: 1px solid var(--_sui-border);
+  border-radius: var(--_sui-inner);
+  background-color: transparent;
+  color: var(--_sui-fg);
+  font: inherit;
+}
+
+.sui-text {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 0 6px;
+}
+
+.sui-text[aria-invalid='true'] {
+  border-color: var(--sui-danger, #e5484d);
+}
+
+/* The number and its unit share one box, so every slider ends at the same place. */
+.sui-field {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 3px;
+  width: 60px;
+  padding: 0 6px;
+}
+
+.sui-number {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  /* No spin buttons: the field is narrow, and the arrow keys still step. */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.sui-number::-webkit-inner-spin-button,
+.sui-number::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.sui-unit {
+  flex: none;
+  color: var(--_sui-muted);
+}
+
+.sui-select {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 0 22px 0 6px;
+  /* The arrow: two gradients make a triangle that takes the theme color. */
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--_sui-muted) 50%), linear-gradient(135deg, var(--_sui-muted) 50%, transparent 50%);
+  background-position:
+    right 11px center,
+    right 7px center;
+  background-size: 4px 4px;
+  background-repeat: no-repeat;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Some browsers draw the list with the colors of the options. */
+.sui-select option {
+  background: var(--_sui-bg);
+  color: var(--_sui-fg);
+}
+
+/* ---------- Slider ---------- */
+
+.sui-range {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: var(--_sui-height);
+  margin: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* The focus ring is drawn around the thumb. */
+.sui-range:focus {
+  outline: none;
+}
+
+/* `--sui-fill` is set by the panel: how far the value is along the track. */
+.sui-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 1px;
+  background: linear-gradient(to right, var(--_sui-accent) var(--sui-fill, 0%), var(--_sui-border) var(--sui-fill, 0%));
+}
+
+.sui-range::-moz-range-track {
+  height: 4px;
+  border-radius: 1px;
+  background: linear-gradient(to right, var(--_sui-accent) var(--sui-fill, 0%), var(--_sui-border) var(--sui-fill, 0%));
+}
+
+.sui-range::-webkit-slider-thumb {
+  box-sizing: border-box;
+  width: 12px;
+  height: 16px;
+  /* Centers the thumb on the 4px track. */
+  margin-top: -6px;
+  border: 2px solid var(--_sui-accent);
+  border-radius: 3px;
+  background: var(--_sui-bg);
+  -webkit-appearance: none;
+}
+
+.sui-range::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 12px;
+  height: 16px;
+  border: 2px solid var(--_sui-accent);
+  border-radius: 3px;
+  background: var(--_sui-bg);
+}
+
+.sui-range:focus-visible::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 2px var(--_sui-bg),
+    0 0 0 4px var(--_sui-accent);
+}
+
+.sui-range:focus-visible::-moz-range-thumb {
+  box-shadow:
+    0 0 0 2px var(--_sui-bg),
+    0 0 0 4px var(--_sui-accent);
+}
+
+/* ---------- Color ---------- */
+
+/* The checkerboard shows through a color that is transparent, or that is not a color. */
+.sui-swatch {
+  position: relative;
+  flex: none;
+  width: var(--_sui-height);
+  height: var(--_sui-height);
+  overflow: hidden;
+  border: 1px solid var(--_sui-border);
+  border-radius: var(--_sui-inner);
+  background: repeating-conic-gradient(var(--_sui-border) 0 25%, transparent 0 50%) 0 0 / 8px 8px;
+}
+
+/* `--sui-swatch` is set by the panel: the CSS color of the parameter, whatever its syntax. */
+.sui-swatch::before {
+  position: absolute;
+  inset: 0;
+  background: var(--sui-swatch, transparent);
+  content: '';
+}
+
+/* The native color input covers the swatch, invisible: a click on the swatch opens its picker. */
+.sui-color {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* ---------- Switch ---------- */
+
+/* Off is an outline, on is filled: the state does not depend on the color alone. */
+.sui-switch {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 18px;
+  margin: 0;
+  border-radius: var(--_sui-inner);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--_sui-muted);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.sui-switch::before {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: calc(var(--_sui-inner) * 0.5);
+  background: var(--_sui-muted);
+  content: '';
+}
+
+.sui-switch:checked {
+  background: var(--_sui-accent);
+  box-shadow: none;
+}
+
+.sui-switch:checked::before {
+  background: var(--_sui-bg);
+  transform: translateX(12px);
+}
+
+/* ---------- Focus, motion, touch ---------- */
+
+.sui-toggle:focus-visible,
+.sui-reset:focus-visible,
+.sui-auto:focus-visible,
+.sui-row-reset:focus-visible,
+.sui-text:focus-visible,
+.sui-select:focus-visible,
+.sui-switch:focus-visible,
+.sui-field:focus-within,
+.sui-swatch:focus-within {
+  outline: 2px solid var(--_sui-accent);
+  outline-offset: 1px;
+}
+
+/* Motion only for a reader who did not ask for less of it. */
+@media (prefers-reduced-motion: no-preference) {
+  .sui-chevron {
+    transition: transform 150ms ease;
+  }
+
+  .sui-toggle,
+  .sui-reset,
+  .sui-auto,
+  .sui-switch {
+    transition:
+      background-color 120ms ease,
+      box-shadow 120ms ease;
+  }
+
+  .sui-switch::before {
+    transition:
+      transform 120ms ease,
+      background-color 120ms ease;
+  }
+
+  .sui-row-reset {
+    transition: opacity 120ms ease;
+  }
+}
+
+/* Forced colors replace the backgrounds: keep them where the color is the information. */
+@media (forced-colors: active) {
+  .sui-swatch,
+  .sui-switch,
+  .sui-auto[aria-pressed='true'] {
+    forced-color-adjust: none;
+  }
+
+  /*
+   * Forced colors remove the shadows and the gradients: the slider would lose its focus ring and
+   * its track. System colors, so they stay visible on any forced canvas.
+   */
+  .sui-range:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Two rules: a browser drops a whole selector list for one pseudo-element it does not know. */
+  .sui-range::-webkit-slider-runnable-track {
+    background: CanvasText;
+  }
+
+  .sui-range::-moz-range-track {
+    background: CanvasText;
+  }
+
+  /* What a `disabled` button gets from the browser. */
+  .sui-reset[aria-disabled='true'] {
+    color: GrayText;
+    opacity: 1;
+  }
+}
+
+/* A finger needs more room than a mouse, and iOS zooms on a field with text under 16px. */
+@media (pointer: coarse) {
+  .sui-panel {
+    --_sui-height: 32px;
+    --_sui-reset: 28px;
+  }
+
+  .sui-text,
+  .sui-number,
+  .sui-select {
+    font-size: 16px;
+  }
+
+  .sui-field {
+    width: 72px;
+  }
+
+  .sui-range::-webkit-slider-thumb {
+    width: 18px;
+    height: 24px;
+    margin-top: -10px;
+  }
+
+  .sui-range::-moz-range-thumb {
+    width: 18px;
+    height: 24px;
+  }
+
+  .sui-switch {
+    width: 40px;
+    height: 24px;
+  }
+
+  .sui-switch::before {
+    top: 5px;
+    left: 5px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .sui-switch:checked::before {
+    transform: translateX(16px);
+  }
+}

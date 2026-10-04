@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+@import 'ferry-ui/fonts.css';
+@import 'ferry-ui/theme.css';
+
+:root {
+  /* Syntax colors of the code samples (sugar-high), from the ferry-ui tokens: they follow the theme. */
+  --sh-identifier: var(--foreground);
+  --sh-sign: var(--foreground-lighter);
+  --sh-space: inherit;
+  --sh-keyword: var(--primary);
+  --sh-string: var(--success);
+  --sh-class: var(--info);
+  --sh-entity: var(--info);
+  --sh-property: var(--warning);
+  --sh-jsxliterals: var(--foreground);
+  --sh-comment: var(--foreground-lighter);
+}
