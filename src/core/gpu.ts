@@ -27,17 +27,17 @@ async function createGpu(): Promise<Gpu | null> {
   // Backgrounds are slow and small: the integrated GPU is enough and saves power.
   const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'low-power' })
   if (!adapter) return null
-  const device = await adapter.requestDevice({ label: 'shader-ui' })
+  const device = await adapter.requestDevice({ label: 'ferry-shaders' })
   // An explicit layout, shared by every shader: one bind group per canvas serves any pipeline.
   const bindGroupLayout = device.createBindGroupLayout({
-    label: 'shader-ui uniforms layout',
+    label: 'ferry-shaders uniforms layout',
     entries: [{ binding: 0, visibility: STAGE_FRAGMENT, buffer: { type: 'uniform' } }],
   })
   return {
     device,
     format: navigator.gpu.getPreferredCanvasFormat(),
     bindGroupLayout,
-    pipelineLayout: device.createPipelineLayout({ label: 'shader-ui layout', bindGroupLayouts: [bindGroupLayout] }),
+    pipelineLayout: device.createPipelineLayout({ label: 'ferry-shaders layout', bindGroupLayouts: [bindGroupLayout] }),
     pipelines: new Map(),
     lostListeners: new Set(),
   }
@@ -52,7 +52,7 @@ export function getGpu(): Promise<Gpu | null> {
   if (shared) return shared
   const pending: Promise<Gpu | null> = createGpu()
     .catch((error: unknown) => {
-      console.error('[shader-ui] WebGPU init failed', error)
+      console.error('[ferry-shaders] WebGPU init failed', error)
       return null
     })
     .then((gpu) => {
@@ -89,7 +89,7 @@ async function reportCompilation(module: GPUShaderModule, label: string, error: 
   } catch {
     // The device is gone: the error below is all there is.
   }
-  console.error(`[shader-ui] shader "${label}" did not compile${details ? `\n${details}` : ''}`, error)
+  console.error(`[ferry-shaders] shader "${label}" did not compile${details ? `\n${details}` : ''}`, error)
 }
 
 /**

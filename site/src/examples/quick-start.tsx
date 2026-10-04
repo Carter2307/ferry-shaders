@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Drift } from 'shader-ui'
+import { Drift } from 'ferry-shaders'
 
 /** A section with a shader behind its content. */
 export function Hero({ children }: { children: ReactNode }) {

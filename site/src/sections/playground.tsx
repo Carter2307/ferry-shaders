@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { PageSection } from 'ferry-ui'
-import { drift, useShaderControls, type ShaderDefinition } from 'shader-ui'
+import { drift, useShaderControls, type ShaderDefinition } from 'ferry-shaders'
 
 import { CodeSample } from '../components/code-sample'
 import { ControlsPanel } from '../components/controls-panel'

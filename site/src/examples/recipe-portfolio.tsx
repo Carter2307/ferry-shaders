@@ -1,4 +1,4 @@
-import { Drift } from 'shader-ui'
+import { Drift } from 'ferry-shaders'
 
 /** The sand palette: the darkest tone, the mid tone and the page. */
 const sand = { color: '#d9c4a3', midColor: '#eee0cb', background: '#fbf7f0' }

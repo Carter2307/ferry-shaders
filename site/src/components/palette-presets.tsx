@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { ToggleGroup, ToggleGroupItem } from 'ferry-ui'
-import type { ShaderControls } from 'shader-ui'
+import type { ShaderControls } from 'ferry-shaders'
 
 /** The two colors a preset sets. The mid tone is always 'auto': a mix of the two. */
 interface Palette {

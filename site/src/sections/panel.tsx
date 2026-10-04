@@ -26,14 +26,14 @@ export function Panel() {
 
       <SubHeading>Theme the panel</SubHeading>
       <P>
-        Import <Code>shader-ui/styles.css</Code> once. The panel reads CSS variables: set them on <Code>:root</Code>, on a wrapper
+        Import <Code>ferry-shaders/styles.css</Code> once. The panel reads CSS variables: set them on <Code>:root</Code>, on a wrapper
         or on the panel. The panel above uses the ferry-ui tokens, with this mapping.
       </P>
       <Example source={themeSource} language="css" what="stylesheet" />
       <P>
-        The other variables are <Code>--sui-shadow</Code>, <Code>--sui-width</Code>, <Code>--sui-scheme</Code> (<Code>light</Code>{' '}
-        or <Code>dark</Code>: it forces the color scheme of the panel), <Code>--sui-offset</Code>, <Code>--sui-z</Code> and{' '}
-        <Code>--sui-danger</Code>.
+        The other variables are <Code>--ferry-shaders-shadow</Code>, <Code>--ferry-shaders-width</Code>, <Code>--ferry-shaders-scheme</Code> (<Code>light</Code>{' '}
+        or <Code>dark</Code>: it forces the color scheme of the panel), <Code>--ferry-shaders-offset</Code>, <Code>--ferry-shaders-z</Code> and{' '}
+        <Code>--ferry-shaders-danger</Code>.
       </P>
 
       <SubHeading>Build your own panel</SubHeading>

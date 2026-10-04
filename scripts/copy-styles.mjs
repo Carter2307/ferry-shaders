@@ -1,4 +1,4 @@
-// Copies the default panel stylesheet to dist/styles.css (the `shader-ui/styles.css` export).
+// Copies the default panel stylesheet to dist/styles.css (the `ferry-shaders/styles.css` export).
 import { cpSync, mkdirSync } from 'node:fs'
 
 mkdirSync('dist', { recursive: true })

@@ -7,7 +7,7 @@ export function WithoutReact() {
   return (
     <DocSection id="without-react" title="Without React" description="The engine draws on any canvas. It needs no framework.">
       <P>
-        <Code>shader-ui/core</Code> is the engine alone: it does not import React. <Code>mountShader(canvas, options)</Code> draws
+        <Code>ferry-shaders/core</Code> is the engine alone: it does not import React. <Code>mountShader(canvas, options)</Code> draws
         a shader on a canvas and returns a controller.
       </P>
       <Example source={source} what="example" />
@@ -24,7 +24,7 @@ export function WithoutReact() {
         <li>Every canvas of the page shares one GPU device.</li>
       </Bullets>
       <P>
-        The shaders of the library come from <Code>shader-ui/shaders</Code>. That entry does not import React either.
+        The shaders of the library come from <Code>ferry-shaders/shaders</Code>. That entry does not import React either.
       </P>
     </DocSection>
   )

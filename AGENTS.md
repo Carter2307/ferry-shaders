@@ -1,6 +1,6 @@
-# shader-ui: guide for AI coding agents
+# ferry-shaders: guide for AI coding agents
 
-shader-ui is a React + TypeScript library of WebGPU (WGSL) background shaders. Every shader declares a
+ferry-shaders is a React + TypeScript library of WebGPU (WGSL) background shaders. Every shader declares a
 parameter schema, so a panel can configure any shader live. This file says how the code is organised
 and how to add a shader. Match the existing code exactly.
 
@@ -9,7 +9,7 @@ and how to add a shader. Match the existing code exactly.
 ```text
 src/
   index.ts            public entry: re-exports core, shaders, react
-                      (`shader-ui/core` and `shader-ui/shaders` are entries too: they import no React)
+                      (`ferry-shaders/core` and `ferry-shaders/shaders` are entries too: they import no React)
   core/               the engine: no React, no DOM access when the module loads
     types.ts          ParamDef, ParamSchema, ParamValues, ShaderDefinition, ShaderStatus
     define.ts         defineShader: checks a definition (ids, param names, fs_main)
@@ -25,7 +25,7 @@ src/
   shaders/<id>/       one folder per shader: <id>.wgsl + index.ts
   shaders/index.ts    registry: `shaders`, `getShader`, and each definition by name
   react/              ShaderCanvas, createShaderComponent, useShaderControls, ShaderPanel, components.ts
-  styles/panel.css    default stylesheet of the panel (`shader-ui/styles.css`)
+  styles/panel.css    default stylesheet of the panel (`ferry-shaders/styles.css`)
   test/               test doubles (fake GPU, fake frames) for the jsdom tests
 test/                 WebGPU tests with Dawn: the pixels of each shader
 site/                 documentation page (Vite + Tailwind 4 + ferry-ui)

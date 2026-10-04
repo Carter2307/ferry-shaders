@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from 'react'
-import { Rain } from 'shader-ui'
+import { Rain } from 'ferry-shaders'
 
 /** A page with the Rain shader behind it. The rain stays faint behind the text column. */
 export function Page({ children }: { children: ReactNode }) {

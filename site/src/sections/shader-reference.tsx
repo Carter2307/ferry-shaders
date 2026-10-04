@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ferry-ui'
-import { shaders, type ShaderDefinition } from 'shader-ui'
+import { shaders, type ShaderDefinition } from 'ferry-shaders'
 
 import { ParamTable } from '../components/param-table'
 import { Code, DocSection } from '../components/prose'

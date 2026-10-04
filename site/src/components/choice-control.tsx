@@ -1,5 +1,5 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Switch, ToggleGroup, ToggleGroupItem } from 'ferry-ui'
-import type { BooleanParamDef, SelectParamDef } from 'shader-ui'
+import type { BooleanParamDef, SelectParamDef } from 'ferry-shaders'
 
 import type { ControlProps } from '../lib/control-props'
 

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { PixelField } from 'shader-ui'
+import { PixelField } from 'ferry-shaders'
 
 /** The two colors of the field, as ferry-ui tokens: they follow the theme. */
 const tokens = { color: 'var(--foreground)', accent: 'var(--primary-bright)' }

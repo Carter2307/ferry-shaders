@@ -1,4 +1,4 @@
-import { Cells, PixelField, Ripples } from 'shader-ui'
+import { Cells, PixelField, Ripples } from 'ferry-shaders'
 
 /** Tokens: the shader reads them again when the theme changes. */
 export function TokenColors() {

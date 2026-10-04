@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { Button, Input, Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger, Switch, cn } from 'ferry-ui'
-import type { ColorParamDef, ParamSchema } from 'shader-ui'
+import type { ColorParamDef, ParamSchema } from 'ferry-shaders'
 
 import { drawnHex, isColorValue, swatchColor, type Values } from '../lib/color'
 import type { ControlProps } from '../lib/control-props'

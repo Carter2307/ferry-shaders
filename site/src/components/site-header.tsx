@@ -23,7 +23,7 @@ export function SiteHeader() {
               'outline-none focus-visible:ring-2 focus-visible:ring-ring',
             )}
           >
-            shader-ui
+            ferry-shaders
           </a>
         }
         actions={

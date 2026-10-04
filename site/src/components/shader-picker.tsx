@@ -1,5 +1,5 @@
 import { RadioCard, RadioCardGroup } from 'ferry-ui'
-import { ShaderCanvas, getShader, shaders, type ShaderDefinition } from 'shader-ui'
+import { ShaderCanvas, getShader, shaders, type ShaderDefinition } from 'ferry-shaders'
 
 /** A preview is small and slow: 12 frames per second are enough to show that it moves. */
 const PREVIEW_FPS = 12

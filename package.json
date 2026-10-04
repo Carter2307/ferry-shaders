@@ -1,7 +1,7 @@
 {
-  "name": "shader-ui",
+  "name": "ferry-shaders",
   "version": "0.1.0",
-  "description": "shader-ui: WebGPU background shaders for React. Every shader declares its parameters (colors, numbers, booleans, selects), so a panel can configure it live.",
+  "description": "ferry-shaders: WebGPU background shaders for React. Every shader declares its parameters (colors, numbers, booleans, selects), so a panel can configure it live.",
   "type": "module",
   "license": "MIT",
   "author": "B.ROGER",

@@ -198,6 +198,6 @@ describe('defineShader', () => {
   })
 
   it('names the shader in the error', () => {
-    expect(() => define({ from: number }, { id: 'my-shader' })).toThrow('[shader-ui] shader "my-shader"')
+    expect(() => define({ from: number }, { id: 'my-shader' })).toThrow('[ferry-shaders] shader "my-shader"')
   })
 })

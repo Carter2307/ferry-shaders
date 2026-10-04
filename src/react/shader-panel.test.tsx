@@ -94,7 +94,7 @@ function Harness({ shader = demo as ShaderDefinition, initial, onSet, ...props }
 
 const values = () => JSON.parse(screen.getByTestId('values').textContent ?? '{}') as Record<string, unknown>
 const row = (key: string) => document.querySelector<HTMLElement>(`[data-param="${key}"]`)!
-const swatch = (key: string) => row(key).querySelector<HTMLElement>('.sui-swatch')!.style.getPropertyValue('--sui-swatch')
+const swatch = (key: string) => row(key).querySelector<HTMLElement>('.ferry-shaders-swatch')!.style.getPropertyValue('--ferry-shaders-swatch')
 
 afterEach(() => {
   cleanup()
@@ -104,12 +104,12 @@ afterEach(() => {
 describe('ShaderPanel', () => {
   it('renders one section per group and one row per parameter, in display order', () => {
     const { container } = render(<Harness />)
-    const sections = [...container.querySelectorAll('.sui-group')]
-    expect(sections.map((section) => section.querySelector('.sui-group-title')?.textContent ?? '')).toEqual(['Color', 'Pattern', ''])
+    const sections = [...container.querySelectorAll('.ferry-shaders-group')]
+    expect(sections.map((section) => section.querySelector('.ferry-shaders-group-title')?.textContent ?? '')).toEqual(['Color', 'Pattern', ''])
 
-    const rows = [...container.querySelectorAll<HTMLElement>('.sui-row')]
+    const rows = [...container.querySelectorAll<HTMLElement>('.ferry-shaders-row')]
     expect(rows.map((item) => item.dataset.param)).toEqual(['color', 'midColor', 'background', 'scale', 'size', 'origin', 'invert'])
-    expect(rows.map((item) => item.querySelector('.sui-label')?.textContent)).toEqual([
+    expect(rows.map((item) => item.querySelector('.ferry-shaders-label')?.textContent)).toEqual([
       'Color',
       'Mid tone',
       'Background',
@@ -119,13 +119,13 @@ describe('ShaderPanel', () => {
       'Invert',
     ])
     expect(rows.map((item) => item.className)).toEqual([
-      'sui-row sui-row--color',
-      'sui-row sui-row--color',
-      'sui-row sui-row--color',
-      'sui-row sui-row--number',
-      'sui-row sui-row--number',
-      'sui-row sui-row--select',
-      'sui-row sui-row--boolean',
+      'ferry-shaders-row ferry-shaders-row--color',
+      'ferry-shaders-row ferry-shaders-row--color',
+      'ferry-shaders-row ferry-shaders-row--color',
+      'ferry-shaders-row ferry-shaders-row--number',
+      'ferry-shaders-row ferry-shaders-row--number',
+      'ferry-shaders-row ferry-shaders-row--select',
+      'ferry-shaders-row ferry-shaders-row--boolean',
     ])
 
     // A section is a group named by its title, and holds the rows of its parameters.
@@ -149,8 +149,8 @@ describe('ShaderPanel', () => {
     const slider = screen.getByRole('slider', { name: 'Scale' })
     expect(document.getElementById(slider.getAttribute('aria-describedby') ?? '')?.textContent).toBe('Size of the pattern.')
     // The tooltip of a label starts with the whole label: the column can cut a long one.
-    expect(row('scale').querySelector('.sui-label')?.getAttribute('title')).toBe('Scale: Size of the pattern.')
-    expect(row('invert').querySelector('.sui-label')?.getAttribute('title')).toBe('Invert')
+    expect(row('scale').querySelector('.ferry-shaders-label')?.getAttribute('title')).toBe('Scale: Size of the pattern.')
+    expect(row('invert').querySelector('.ferry-shaders-label')?.getAttribute('title')).toBe('Invert')
     const text = screen.getByRole('textbox', { name: 'Color' })
     expect(document.getElementById(text.getAttribute('aria-describedby') ?? '')?.textContent).toBe('The darkest tone.')
     // A parameter with no description points to nothing.
@@ -168,13 +168,13 @@ describe('ShaderPanel', () => {
     const field = screen.getByRole<HTMLInputElement>('spinbutton', { name: 'Scale' })
     expect([slider.min, slider.max, slider.step, slider.value]).toEqual(['0', '10', '0.5', '2'])
     expect([field.min, field.max, field.step, field.value]).toEqual(['0', '10', '0.5', '2'])
-    expect(slider.style.getPropertyValue('--sui-fill')).toBe('20%')
+    expect(slider.style.getPropertyValue('--ferry-shaders-fill')).toBe('20%')
 
     fireEvent.change(slider, { target: { value: '5.5' } })
     expect(onSet).toHaveBeenLastCalledWith('scale', 5.5)
     expect(values().scale).toBe(5.5)
     expect(field.value).toBe('5.5')
-    expect(slider.style.getPropertyValue('--sui-fill')).toBe('55%')
+    expect(slider.style.getPropertyValue('--ferry-shaders-fill')).toBe('55%')
 
     fireEvent.change(field, { target: { value: '3' } })
     expect(onSet).toHaveBeenLastCalledWith('scale', 3)
@@ -184,8 +184,8 @@ describe('ShaderPanel', () => {
 
   it('shows the unit after the number', () => {
     render(<Harness />)
-    expect(row('size').querySelector('.sui-unit')?.textContent).toBe('px')
-    expect(row('scale').querySelector('.sui-unit')).toBeNull()
+    expect(row('size').querySelector('.ferry-shaders-unit')?.textContent).toBe('px')
+    expect(row('scale').querySelector('.ferry-shaders-unit')).toBeNull()
     expect(screen.getByRole('slider', { name: 'Size' }).getAttribute('aria-valuetext')).toBe('4 px')
   })
 
@@ -198,7 +198,7 @@ describe('ShaderPanel', () => {
     fireEvent.change(field, { target: { value: '25' } })
     expect(onSet).toHaveBeenLastCalledWith('scale', 25)
     expect(values().scale).toBe(25)
-    expect(slider.style.getPropertyValue('--sui-fill')).toBe('100%')
+    expect(slider.style.getPropertyValue('--ferry-shaders-fill')).toBe('100%')
 
     onSet.mockClear()
     // The field can be emptied to type another number: nothing is sent meanwhile.
@@ -387,7 +387,7 @@ describe('ShaderPanel', () => {
     fireEvent.click(reset)
     expect(values()).toEqual({ color: '#000000', scale: 2, midColor: 'auto', background: '#ffffff', invert: false, size: 4, origin: 'top' })
     expect(reset.getAttribute('aria-disabled')).toBe('true')
-    expect(document.querySelectorAll('.sui-row-reset')).toHaveLength(0)
+    expect(document.querySelectorAll('.ferry-shaders-row-reset')).toHaveLength(0)
     // The button turned itself off. A `disabled` button would lose the focus: the reader keeps their place.
     expect(reset.disabled).toBe(false)
     expect(document.activeElement).toBe(reset)
@@ -454,12 +454,12 @@ describe('ShaderPanel', () => {
 
     // Each label names its own control.
     const slider = screen.getByRole<HTMLInputElement>('slider', { name: 'Body' })
-    expect(row('body').querySelector<HTMLLabelElement>('.sui-label')?.control).toBe(slider)
+    expect(row('body').querySelector<HTMLLabelElement>('.ferry-shaders-label')?.control).toBe(slider)
     expect(screen.getByRole('switch', { name: 'Shader on' })).toBeTruthy()
     expect(screen.getByRole<HTMLSelectElement>('combobox', { name: 'Shader' }).value).toBe('panel-clash')
     // The header still points to the body of the panel.
     const toggle = screen.getByRole('button', { name: 'Clash' })
-    expect(document.getElementById(toggle.getAttribute('aria-controls') ?? '')?.className).toBe('sui-body')
+    expect(document.getElementById(toggle.getAttribute('aria-controls') ?? '')?.className).toBe('ferry-shaders-body')
 
     // The reset of the row finds the control through the label.
     fireEvent.change(slider, { target: { value: '2' } })
@@ -482,10 +482,10 @@ describe('ShaderPanel', () => {
   it('folds and opens from the header', () => {
     const onOpenChange = vi.fn()
     const { container } = render(<Harness onOpenChange={onOpenChange} />)
-    const root = container.querySelector<HTMLElement>('.sui-panel')!
+    const root = container.querySelector<HTMLElement>('.ferry-shaders-panel')!
     const toggle = screen.getByRole('button', { name: 'Demo' })
     const body = document.getElementById(toggle.getAttribute('aria-controls') ?? '')!
-    expect(body.className).toBe('sui-body')
+    expect(body.className).toBe('ferry-shaders-body')
     expect(toggle.getAttribute('aria-expanded')).toBe('true')
     expect(body.hidden).toBe(false)
     expect(root.dataset.state).toBe('open')
@@ -534,18 +534,18 @@ describe('ShaderPanel', () => {
   it('cannot fold when it is not collapsible', () => {
     const { container } = render(<Harness collapsible={false} open={false} />)
     expect(screen.queryByRole('button', { name: 'Demo' })).toBeNull()
-    expect(container.querySelector('.sui-heading')?.textContent).toBe('Demo')
-    expect(container.querySelector<HTMLElement>('.sui-panel')?.dataset.state).toBe('open')
+    expect(container.querySelector('.ferry-shaders-heading')?.textContent).toBe('Demo')
+    expect(container.querySelector<HTMLElement>('.ferry-shaders-panel')?.dataset.state).toBe('open')
     expect(screen.getByRole('slider', { name: 'Scale' })).toBeTruthy()
   })
 
   it('sets the placement class', () => {
     const { container, rerender } = render(<Harness />)
-    const root = container.querySelector<HTMLElement>('.sui-panel')!
-    expect(root.className).toBe('sui-panel sui-panel--inline')
+    const root = container.querySelector<HTMLElement>('.ferry-shaders-panel')!
+    expect(root.className).toBe('ferry-shaders-panel ferry-shaders-panel--inline')
     for (const placement of ['top-left', 'top-right', 'bottom-left', 'bottom-right'] as const) {
       rerender(<Harness placement={placement} />)
-      expect(root.className).toBe(`sui-panel sui-panel--${placement}`)
+      expect(root.className).toBe(`ferry-shaders-panel ferry-shaders-panel--${placement}`)
     }
   })
 
@@ -562,16 +562,16 @@ describe('ShaderPanel', () => {
     render(<Typed />)
     const root = screen.getByTestId('panel')
     expect(ref.current).toBe(root)
-    expect(root.className).toBe('sui-panel sui-panel--inline mine')
+    expect(root.className).toBe('ferry-shaders-panel ferry-shaders-panel--inline mine')
     expect(root.getAttribute('aria-label')).toBe('Shader settings')
     // `title` is the heading, not the tooltip of the root.
     expect(root.hasAttribute('title')).toBe(false)
-    expect(root.querySelector('.sui-body > .sui-footer')?.textContent).toBe('Code')
+    expect(root.querySelector('.ferry-shaders-body > .ferry-shaders-footer')?.textContent).toBe('Code')
   })
 
   it('renders to a string', () => {
     const html = renderToString(<Harness shaders={[demo, other]} onShaderChange={() => {}} />)
-    expect(html).toContain('class="sui-panel sui-panel--inline"')
-    expect(html).toContain('--sui-swatch:#000000')
+    expect(html).toContain('class="ferry-shaders-panel ferry-shaders-panel--inline"')
+    expect(html).toContain('--ferry-shaders-swatch:#000000')
   })
 })

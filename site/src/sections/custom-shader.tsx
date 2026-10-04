@@ -1,5 +1,5 @@
 import { useId, useState } from 'react'
-import { shaderLayout } from 'shader-ui'
+import { shaderLayout } from 'ferry-shaders'
 
 import { CodeSample } from '../components/code-sample'
 import { CodeCell, DocRow, DocTable, TextCell } from '../components/doc-table'

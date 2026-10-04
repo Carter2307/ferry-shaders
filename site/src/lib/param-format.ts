@@ -1,4 +1,4 @@
-import type { ParamDef } from 'shader-ui'
+import type { ParamDef } from 'ferry-shaders'
 
 /** The value type of a parameter, as TypeScript: `number`, `string`, `boolean` or a union of options. */
 export function paramType(def: ParamDef): string {

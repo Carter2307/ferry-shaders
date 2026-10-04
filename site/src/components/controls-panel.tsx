@@ -1,7 +1,7 @@
 import { Fragment, useId } from 'react'
 import { Button, Card, CardAction, CardHeader, CardTitle } from 'ferry-ui'
 import { RotateCcw } from 'lucide-react'
-import type { ParamGroup, ShaderControls } from 'shader-ui'
+import type { ParamGroup, ShaderControls } from 'ferry-shaders'
 
 import { PalettePresets, hasPalette } from './palette-presets'
 import { ParamRow } from './param-row'

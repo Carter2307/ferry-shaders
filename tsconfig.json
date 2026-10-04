@@ -16,9 +16,9 @@
 
     /* The site and the tests import the library by its package name: resolve it to the sources. */
     "paths": {
-      "shader-ui": ["./src/index.ts"],
-      "shader-ui/core": ["./src/core/index.ts"],
-      "shader-ui/shaders": ["./src/shaders/index.ts"]
+      "ferry-shaders": ["./src/index.ts"],
+      "ferry-shaders/core": ["./src/core/index.ts"],
+      "ferry-shaders/shaders": ["./src/shaders/index.ts"]
     },
 
     /* Strictness */

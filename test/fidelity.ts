@@ -14,7 +14,7 @@ import { compileMessages, getDevice, renderToPixels } from './gpu'
 export const gpuAvailable = (await getDevice()) !== null
 
 if (!gpuAvailable) {
-  console.warn('\n[shader-ui] NO WEBGPU DEVICE (Dawn): the pixel tests of the shaders are SKIPPED.\n')
+  console.warn('\n[ferry-shaders] NO WEBGPU DEVICE (Dawn): the pixel tests of the shaders are SKIPPED.\n')
 }
 
 /** The state of one frame: what the engine writes to the header of the uniform buffer. */

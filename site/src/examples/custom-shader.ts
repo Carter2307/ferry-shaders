@@ -1,4 +1,4 @@
-import { createShaderComponent, defineDitherShader } from 'shader-ui'
+import { createShaderComponent, defineDitherShader } from 'ferry-shaders'
 
 export const stripes = defineDitherShader({
   id: 'stripes',

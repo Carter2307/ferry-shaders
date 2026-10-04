@@ -33,5 +33,5 @@ export function formatJsx(name: string, props: Readonly<Record<string, unknown>>
 /** The code sample of the playground: the import, then the component with the current settings. */
 export function formatUsage(shaderId: string, props: Readonly<Record<string, unknown>>, className: string): string {
   const name = componentName(shaderId)
-  return `import { ${name} } from 'shader-ui'\n\n${formatJsx(name, props, className)}`
+  return `import { ${name} } from 'ferry-shaders'\n\n${formatJsx(name, props, className)}`
 }
